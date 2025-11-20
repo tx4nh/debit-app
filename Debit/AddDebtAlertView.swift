@@ -12,15 +12,26 @@ struct AddDebtAlertView: View {
         VStack {
             Text("Thêm khoản nợ mới")
                 .font(.headline)
+                .foregroundStyle(Color.black)
                 .padding()
             
-            TextField("Tên người", text: $name)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("", text: $name, prompt: Text("Tên người").foregroundColor(.gray))
+                .foregroundStyle(.black)
+                .padding()
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.green, lineWidth: 2)
+                }
                 .padding()
             
-            TextField("Số tiền", text: $amount)
+            TextField("", text: $amount, prompt: Text("Số tiền").foregroundStyle(.gray))
+                .foregroundStyle(.black)
                 .keyboardType(.decimalPad)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+                .overlay{
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.green, lineWidth: 2)
+                }
                 .padding()
             
             Picker("Loại", selection: $type) {
@@ -30,6 +41,12 @@ struct AddDebtAlertView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
+            .onAppear {
+                // Màu nền khi chọn
+                UISegmentedControl.appearance().selectedSegmentTintColor = UIColor.black.withAlphaComponent(0.7)
+                UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+                UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+            }
             
             HStack {
                 Button("Hủy") {
@@ -57,6 +74,7 @@ struct AddDebtAlertView: View {
         .background(Color.surface)
         .cornerRadius(20)
         .shadow(radius: 10)
+//        .padding(.bottom, 100)
     }
     
     private func addDebt() {
@@ -67,4 +85,13 @@ struct AddDebtAlertView: View {
         let newDebt = DebtItem(name: name, amount: amountValue, type: type)
         debts.append(newDebt)
     }
+}
+
+#Preview{
+    AddDebtAlertView(
+        isPresented: .constant(true),
+        debts: .constant([
+            DebtItem(name: "Nguyễn A", amount: 100_000, type: .lent)
+        ])
+    )
 }

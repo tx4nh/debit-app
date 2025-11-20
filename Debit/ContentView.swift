@@ -62,12 +62,9 @@ struct ContentView: View {
                         showingAddDebtAlert.toggle()
                     }
                 }
-                
-                if showingAddDebtAlert {
-                    AddDebtAlertView(isPresented: $showingAddDebtAlert, debts: $debts)
-                }
             }
-            .navigationTitle("Sổ nợ")
+            .navigationTitle(selectedTab == 0 ? "Những người bạn cho vay" : "Những người bạn nợ")
+            .background(Color.white)
             .alert("Xác nhận xóa", isPresented: $showingDeleteConfirmation, actions: {
                 Button("Xóa", role: .destructive, action: performDelete)
                 Button("Hủy", role: .cancel) {}
@@ -81,6 +78,14 @@ struct ContentView: View {
                 Text("Xác nhận chuyển sang \(debtToToggle?.type == .lent ? DebtType.borrowed.rawValue : DebtType.lent.rawValue) \(debtToToggle?.name ?? "")?")
             })
         }
+        .overlay(
+            Group {
+                if showingAddDebtAlert {
+                    Color.black.opacity(0.4).ignoresSafeArea()
+                    AddDebtAlertView(isPresented: $showingAddDebtAlert, debts: $debts)
+                }
+            }
+        )
     }
 
     private func performDelete() {
@@ -118,8 +123,6 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+#Preview{
+    ContentView()
 }
