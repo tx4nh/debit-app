@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		28A454F12ECFAA9D00CE4683 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 28A454F02ECFAA9500CE4683 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2866C81E2EA320F400038FB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +28,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2866C8102EA320F200038FB6 /* Debit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Debit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2866C81D2EA320F400038FB6 /* DebitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2866C8272EA320F400038FB6 /* DebitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2866C8102EA320F200038FB6 /* Debit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Debit.app; path = "/Users/macofanh/Documents/Projects/Debit/build/Debug-iphoneos/Debit.app"; sourceTree = "<absolute>"; };
+		2866C81D2EA320F400038FB6 /* DebitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = DebitTests.xctest; path = "/Users/macofanh/Documents/Projects/Debit/build/Debug-iphoneos/Debit.app/PlugIns/DebitTests.xctest"; sourceTree = "<absolute>"; };
+		2866C8272EA320F400038FB6 /* DebitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = DebitUITests.xctest; path = "/Users/macofanh/Documents/Projects/Debit/build/Debug-iphoneos/DebitUITests-Runner.app/PlugIns/DebitUITests.xctest"; sourceTree = "<absolute>"; };
+		28A454F02ECFAA9500CE4683 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -78,18 +83,8 @@
 				2866C8122EA320F200038FB6 /* Debit */,
 				2866C8202EA320F400038FB6 /* DebitTests */,
 				2866C82A2EA320F400038FB6 /* DebitUITests */,
-				2866C8112EA320F200038FB6 /* Products */,
+				28A454F02ECFAA9500CE4683 /* README.md */,
 			);
-			sourceTree = "<group>";
-		};
-		2866C8112EA320F200038FB6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2866C8102EA320F200038FB6 /* Debit.app */,
-				2866C81D2EA320F400038FB6 /* DebitTests.xctest */,
-				2866C8272EA320F400038FB6 /* DebitUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,7 +191,7 @@
 			mainGroup = 2866C8072EA320F200038FB6;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 2866C8112EA320F200038FB6 /* Products */;
+			productRefGroup = 2866C8072EA320F200038FB6;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -212,6 +207,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A454F12ECFAA9D00CE4683 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
