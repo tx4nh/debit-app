@@ -16,10 +16,9 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 VStack(spacing: 0) {
-                    if selectedTab == 0 {
                         DebtListView(
                             debts: $debts,
-                            type: .lent,
+                            type: selectedTab == 0 ? .lent : .borrowed,
                             onToggle: { debt in
                                 self.debtToToggle = debt
                                 self.showingToggleConfirmation = true
@@ -36,34 +35,13 @@ struct ContentView: View {
                                 self.showingDeleteConfirmation = true
                             }
                         )
-                    } else {
-                        DebtListView(
-                            debts: $debts,
-                            type: .borrowed,
-                            onToggle: { debt in
-                                self.debtToToggle = debt
-                                self.showingToggleConfirmation = true
-                            },
-                            onAdd: { debt, amount in
-                                updateDebtAmount(debt: debt, amount: amount, isAdding: true)
-                            },
-                            onSubtract: { debt, amount in
-                                updateDebtAmount(debt: debt, amount: amount, isAdding: false)
-                            },
-                            onDelete: { offsets in
-                                self.debtToDelete = offsets
-                                self.debtTypeForDeletion = .borrowed
-                                self.showingDeleteConfirmation = true
-                            }
-                        )
-                    }
                     
                     CustomTabBarView(selectedTab: $selectedTab) {
                         showingAddDebtAlert.toggle()
                     }
                 }
             }
-            .navigationTitle(selectedTab == 0 ? "Những người bạn cho vay" : "Những người bạn nợ")
+            .navigationTitle(selectedTab == 0 ? "Người bạn cho vay" : "Người bạn nợ")
             .background(Color.white)
             .alert("Xác nhận xóa", isPresented: $showingDeleteConfirmation, actions: {
                 Button("Xóa", role: .destructive, action: performDelete)
@@ -86,6 +64,22 @@ struct ContentView: View {
                 }
             }
         )
+        .onAppear {
+            loadDebts()
+        }
+    }
+
+    private func loadDebts() {
+        if let data = UserDefaults.standard.data(forKey: "debts"),
+           let decoded = try? JSONDecoder().decode([DebtItem].self, from: data) {
+            debts = decoded
+        }
+    }
+    
+    private func saveDebts() {
+        if let encoded = try? JSONEncoder().encode(debts) {
+            UserDefaults.standard.set(encoded, forKey: "debts")
+        }
     }
 
     private func performDelete() {
@@ -95,6 +89,8 @@ struct ContentView: View {
         let idsToDelete = offsets.map { filteredDebts[$0].id }
         debts.removeAll { idsToDelete.contains($0.id) }
         
+        saveDebts()
+        
         debtToDelete = nil
         debtTypeForDeletion = nil
     }
@@ -102,6 +98,7 @@ struct ContentView: View {
     private func performToggle() {
         if let debtToToggle = debtToToggle, let index = debts.firstIndex(where: { $0.id == debtToToggle.id }) {
             debts[index].type = (debts[index].type == .lent) ? .borrowed : .lent
+            saveDebts() // Lưu sau khi chuyển đổi
         }
         self.debtToToggle = nil
     }
@@ -120,6 +117,8 @@ struct ContentView: View {
         if debts[index].amount <= 0 {
             debts.remove(at: index)
         }
+        
+        saveDebts()
     }
 }
 

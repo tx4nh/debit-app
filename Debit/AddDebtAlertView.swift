@@ -5,12 +5,12 @@ struct AddDebtAlertView: View {
     @Binding var debts: [DebtItem]
     
     @State private var name = ""
-    @State private var amount = ""
+    @State private var amount: Double? = nil
     @State private var type: DebtType = .lent
     
     var body: some View {
         VStack {
-            Text("Thêm khoản nợ mới")
+            Text("Thêm giao dịch mới")
                 .font(.headline)
                 .foregroundStyle(Color.black)
                 .padding()
@@ -24,7 +24,7 @@ struct AddDebtAlertView: View {
                 }
                 .padding()
             
-            TextField("", text: $amount, prompt: Text("Số tiền").foregroundStyle(.gray))
+            TextField("", value: $amount, format: .number, prompt: Text("Số tiền").foregroundStyle(.gray))
                 .foregroundStyle(.black)
                 .keyboardType(.decimalPad)
                 .padding()
@@ -66,7 +66,7 @@ struct AddDebtAlertView: View {
                 .background(Color.lent)
                 .foregroundColor(.white)
                 .cornerRadius(10)
-                .disabled(name.isEmpty || amount.isEmpty)
+                .disabled(name.isEmpty || amount == 0 || amount == nil)
             }
             .padding()
         }
@@ -74,16 +74,23 @@ struct AddDebtAlertView: View {
         .background(Color.surface)
         .cornerRadius(20)
         .shadow(radius: 10)
-//        .padding(.bottom, 100)
     }
     
     private func addDebt() {
-        guard let amountValue = Double(amount), amountValue > 0 else {
+        guard let amountValue = amount, amountValue > 0 else {
             return
         }
         
         let newDebt = DebtItem(name: name, amount: amountValue, type: type)
         debts.append(newDebt)
+        
+        saveDebt()
+    }
+    
+    private func saveDebt() {
+        if let encoded = try? JSONEncoder().encode(debts) {
+            UserDefaults.standard.set(encoded, forKey: "debts")
+        }
     }
 }
 
